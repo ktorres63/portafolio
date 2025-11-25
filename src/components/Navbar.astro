@@ -1,40 +1,79 @@
 ---
-// Navbar.astro
-import MenuIcon from '../icons/MenuIcon.astro';
+import MenuIcon from "../icons/MenuIcon.astro";
+import LanguageSelector from "./ui/LanguageSelector.astro"; // <-- Importa el nuevo componente
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// La lógica para la navegación sigue siendo necesaria aquí
+const currentLocale = Astro.currentLocale!;
+
+const homeLink = getRelativeLocaleUrl(currentLocale, "/");
+const aboutLink = getRelativeLocaleUrl(currentLocale, "about");
+const contactLink = getRelativeLocaleUrl(currentLocale, "contact");
+
+// Eliminamos toda la lógica de languages, getAlternateUrl, alternateLocale y el marcado del slider
 ---
+
 <header class="bg-gray-800 p-4 text-white">
   <div class="container mx-auto flex justify-between items-center">
+    <a href={homeLink} class="text-xl font-bold">AstroNav</a>
 
-    <a href="/" class="text-xl font-bold">AstroNav</a>
+    <div class="flex items-center gap-4">
+      <LanguageSelector />
 
-    <button class="md:hidden" id="mobile-menu-button">
-      <MenuIcon />
-    </button>
+      <button class="md:hidden" id="mobile-menu-button" aria-label="Abrir menú">
+        <MenuIcon />
+      </button>
+    </div>
 
     <nav class="hidden md:flex space-x-4">
-      <a href="#" class="hover:text-blue-400">Inicio</a>
-      <a href="#" class="hover:text-blue-400">Acerca de</a>
-      <a href="#" class="hover:text-blue-400">Servicios</a>
-      <a href="#" class="hover:text-blue-400">Contacto</a>
+      <a href={homeLink} class="hover:text-blue-400 transition-colors">Inicio</a
+      >
+      <a href={aboutLink} class="hover:text-blue-400 transition-colors"
+        >Acerca de</a
+      >
+      <a href="#" class="hover:text-blue-400 transition-colors">Servicios</a>
+      <a href={contactLink} class="hover:text-blue-400 transition-colors"
+        >Contacto</a
+      >
     </nav>
   </div>
 
   <div id="mobile-menu" class="hidden md:hidden">
-    <a href="#" class="block py-2 px-4 hover:bg-gray-700">Inicio</a>
-    <a href="#" class="block py-2 px-4 hover:bg-gray-700">Acerca de</a>
-    <a href="#" class="block py-2 px-4 hover:bg-gray-700">Servicios</a>
-    <a href="#" class="block py-2 px-4 hover:bg-gray-700">Contacto</a>
+    <nav class="space-y-1">
+      <a
+        href={homeLink}
+        class="block py-2 px-4 hover:bg-gray-700 transition-colors rounded"
+        >Inicio</a
+      >
+      <a
+        href={aboutLink}
+        class="block py-2 px-4 hover:bg-gray-700 transition-colors rounded"
+        >Acerca de</a
+      >
+      <a
+        href="#"
+        class="block py-2 px-4 hover:bg-gray-700 transition-colors rounded"
+        >Servicios</a
+      >
+      <a
+        href={contactLink}
+        class="block py-2 px-4 hover:bg-gray-700 transition-colors rounded"
+        >Contacto</a
+      >
+    </nav>
+
+    <div class="border-t border-gray-700 mt-4 pt-4 px-4">
+      <LanguageSelector isMobile={true} />
+    </div>
   </div>
 </header>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-  const button = document.getElementById('mobile-menu-button');
-  const menu = document.getElementById('mobile-menu');
 
-  if(button != null && menu != null){
-    button.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-  }
-});
+<script>
+  // El script para el toggle del menú móvil permanece aquí
+  const button = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+
+  button?.addEventListener("click", () => {
+    menu?.classList.toggle("hidden");
+  });
 </script>

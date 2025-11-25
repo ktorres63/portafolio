@@ -1,0 +1,15 @@
+{
+  "nav":{
+    "home": "Inicio",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "projects": "Proyectos"
+  },
+  "hero":{
+    "title": "Hola, soy",
+    "name": "Karlo Torres",
+    "subtitle": "Desarrollador Frontend especializado en crear interfaces rápidas y accesibles.",
+    "cta_projects": "Ver Proyectos",
+    "cta_contact": "Hablemos"
+  }
+}

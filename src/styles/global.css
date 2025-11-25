@@ -1,1 +1,100 @@
+/* Tipografias */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap');
+
+
 @import "tailwindcss";
+
+/* --------------------------------------
+   2) Tema: Colores, tipografía, spacing
+--------------------------------------- */
+@theme {
+  /* Tipografías */
+  --font-sans: "Heebo", system-ui, sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  /* Paleta azul moderna (light mode) */
+  --color-bg: #ffffff;
+  --color-text: #111827;
+  /* gray-900 */
+  --color-muted: #6b7280;
+  /* gray-500 */
+
+  --color-primary: #2563eb;
+  /* blue-600 */
+  --color-primary-light: #3b82f6;
+  /* blue-500 */
+  --color-primary-dark: #1e40af;
+  /* blue-800 */
+
+  /* Layout tokens */
+  --radius-base: 0.5rem;
+  --radius-lg: 1rem;
+
+  /* Tipografía fluida */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.8rem);
+  --text-sm: clamp(0.88rem, 0.82rem + 0.3vw, 0.95rem);
+  --text-base: clamp(1rem, 0.95rem + 0.35vw, 1.1rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.3rem);
+  --text-xl: clamp(1.25rem, 1.2rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.35rem + 0.6vw, 1.8rem);
+  --text-3xl: clamp(1.9rem, 1.6rem + 0.8vw, 2.2rem);
+  --text-4xl: clamp(2.3rem, 2rem + 1vw, 3rem);
+}
+
+/* --------------------------------------
+   3) Dark Mode (prefers-color-scheme)
+--------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f172a;
+    /* slate-900 */
+    --color-text: #e2e8f0;
+    /* slate-300 */
+    --color-muted: #94a3b8;
+    /* slate-400 */
+
+    --color-primary: #3b82f6;
+    /* blue-500 */
+    --color-primary-light: #60a5fa;
+    /* blue-400 */
+    --color-primary-dark: #1d4ed8;
+    /* blue-700 */
+  }
+}
+
+/* --------------------------------------
+   4) Base styles
+--------------------------------------- */
+html {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Monospace utility */
+.code {
+  font-family: var(--font-mono);
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-light);
+}
+
+/* Improve text rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}

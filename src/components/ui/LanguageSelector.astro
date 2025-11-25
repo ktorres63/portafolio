@@ -1,0 +1,96 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// Definimos los tipos de props que recibirá el componente
+interface Props {
+  isMobile?: boolean; // Para ajustar estilos si es en móvil
+}
+
+const { isMobile = false } = Astro.props;
+
+// --- Lógica de i18n ---
+const currentPath = Astro.url.pathname;
+const currentLocale = Astro.currentLocale!;
+
+// Definición de idiomas y sus representaciones (etiquetas y banderas)
+const languages: Record<string, { label: string; name: string; flag: string }> =
+  {
+    es: {
+      label: "ES",
+      name: "Español",
+      // Puedes usar una ruta a un SVG, un emoji de bandera, o un componente de bandera
+      // Ejemplo con emoji:
+      flag: "🇪🇸",
+      // Ejemplo con un SVG si lo tienes:
+      // flag: "/flags/es.svg"
+    },
+    en: {
+      label: "EN",
+      name: "English",
+      flag: "🇬🇧", // O "🇺🇸" si prefieres la de EE. UU.
+      // flag: "/flags/gb.svg"
+    },
+  };
+
+// Función para calcular la URL del idioma alternativo, manteniendo la misma página.
+function getLocalizedUrl(locale: string) {
+  // 1. Obtiene la ruta base (sin prefijo de idioma, ej: /about, o / para la raíz)
+  // La expresión regular ahora incluye '/en' también, ya que 'en' es el default sin prefijo.
+  const pathWithoutLocale = currentPath.replace(/^\/(es|en)/, "") || "/";
+
+  // 2. Aplica el prefijo según el locale de destino
+  if (locale === "es") {
+    // 'es' es el idioma raíz, NO lleva prefijo.
+    // Ej: /about o /
+    return pathWithoutLocale;
+  }
+
+  if (locale === "en") {
+    // 'en' SÍ lleva el prefijo /en.
+
+    // Si la ruta base es solo "/", devolvemos solo "/en".
+    if (pathWithoutLocale === "/") {
+      return "/en";
+    }
+
+    // Si la ruta base es /about, devolvemos /en/about
+    return `/en${pathWithoutLocale}`;
+  }
+
+  // Fallback si por alguna razón el locale no es 'es' ni 'en'
+  return "/";
+}
+
+// Obtenemos los locales disponibles
+const availableLocales = Object.keys(languages);
+---
+
+<div
+  class={isMobile
+    ? "border-t border-gray-700 mt-4 pt-4 px-4"
+    : "hidden md:block"}
+>
+  {isMobile && <p class="text-xs text-gray-400 mb-3">Idioma / Language</p>}
+
+  <div class="flex items-center space-x-2">
+    {
+      availableLocales.map((locale) => (
+        <a
+          href={getLocalizedUrl(locale)}
+          class:list={[
+            "flex items-center justify-center p-2 rounded-md transition-colors duration-200",
+            isMobile ? "h-10 w-12 text-lg" : "h-8 w-10 text-sm", // Ajuste de tamaño para banderas
+            currentLocale === locale
+              ? "bg-blue-600 text-white font-bold" // Estilo para el idioma actual
+              : "bg-gray-700 text-gray-300 hover:bg-gray-600", // Estilo para otros idiomas
+          ]}
+          aria-label={`Cambiar idioma a ${languages[locale].name}`}
+          aria-current={currentLocale === locale ? "page" : undefined}
+        >
+          <span class="mr-1">{languages[locale].flag}</span>
+          <span>{languages[locale].label}</span>
+        </a>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,15 @@
+{
+  "nav":{
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "projects": "Projects"
+  },
+  "hero":{
+    "title": "Hi, I'm",
+    "name": "Karlo Torres",
+    "subtitle": "Frontend developer specializing in creating fast and accessible interfaces.",
+    "cta_projects": "View Projects",
+    "cta_contact": "Let's Talk"
+  }
+}
